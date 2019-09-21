@@ -58,23 +58,23 @@ class misviajesDetalles extends React.Component {
                     {/* Info y direccion del viaje seleccionado----------------------------------------------*/}
                     <View style={styles.vistas, { marginTop: 10 }}>
                         <Image
-                            source={{ uri: viajeElegido.recorrido }}
+
                             style={styles.imagen}
                         />
                     </View>
                     <Divider style={{ backgroundColor: '#bababa' }} />
                     <View>
                         <View style={styles.vistas}>
-                            <Text>{viajeElegido.fechaUso}</Text>
-                            <Text>$ {viajeElegido.montoViaje}</Text>
+                            <Text>{viajeElegido.fecha_hora}</Text>
+                            <Text>$ {viajeElegido.total_servicio}</Text>
                         </View>
                         <View style={styles.vistas}>
-                            <Text>{viajeElegido.modeloTaxi}</Text>
-                            <Text>{viajeElegido.formapago}</Text>
+                            <Text>{viajeElegido.vehiculo_info}</Text>
+                            <Text>{viajeElegido.forma_pago}</Text>
                         </View>
                         <View style={{ flexDirection: "column" }}>
-                            <Text>*{viajeElegido.origen}</Text>
-                            <Text>*{viajeElegido.destino}</Text>
+                            <Text>*Direccion de origen</Text>
+                            <Text>*Direccion de destino</Text>
                         </View>
                     </View>
                     <Divider style={{ backgroundColor: '#fff', height: 14 }} />

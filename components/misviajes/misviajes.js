@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, deviceWidth, ActivityIndicator, FlatList } from 'react-native'
 import { Divider, Icon, Button, Card, Image, Rating, Header } from 'react-native-elements'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Navmisviajes } from './navmisviajes'
 
 const viajesTaxi = [
@@ -71,6 +71,21 @@ const viajesTaxi = [
 class misviajes extends React.Component {
 
     constructor(props) {
+
+        const { navigate } = props.navigation;
+        //function to go to next screen
+        goToNextScreen = (viajeT) => {
+            return navigate('DetallesViaje', { viajeT });
+        }
+        tipoPago = (pago) => {
+            if (pago == 1) {
+                return <Text> Efectivo </Text>
+            }
+            else {
+                return <Text> Tarjeta </Text>
+            }
+        }
+
         super(props);
     }
 
@@ -122,24 +137,40 @@ class misviajes extends React.Component {
     }
 
     renderItem(data) {
-        return <Card>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("DetallesViaje",  data.item )} >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text>{data.item.fecha_hora}</Text>
-                    <Text>${data.item.total_servicio}</Text>
+        return <Card style={{ flex: 1 }}>
+            <TouchableOpacity onPress={() => this.goToNextScreen(data.item)}
+                style={{ flexDirection: 'column' }}>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    scrollEnabled={false}
+                    liteMode={true}
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: 37.78825,
+                        longitude: -122.4324,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }} />
+                <View >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text>{data.item.fecha_hora.split('T')[0]}</Text>
+                        <Text>${data.item.total_servicio}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+                        <Text>{data.item.vehiculo_info}</Text>
+                        <Text style={{ fontWeight: 'bold' }} >{this.tipoPago(data.item.forma_pago)}</Text>
+                        <Rating
+                            readonly
+                            imageSize={15}
+                            startingValue={data.item.calificacion_chofer}
+                        />
+                    </View>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <Text>{data.item.vehiculo_info}</Text>
-                    <Text style={{ fontWeight: 'bold' }} >{data.item.forma_pago}</Text>
-                    <Rating
-                        readonly
-                        imageSize={15}
-                        startingValue={data.item.calificacion_chofer}
-                    />
-                </View>
+
             </TouchableOpacity>
         </Card>
     }
+
 
     render() {
 
@@ -151,7 +182,8 @@ class misviajes extends React.Component {
             return <FlatList
                 data={viajes}
                 renderItem={this.renderItem}
-                keyExtractor={(item) => item.nombre_conductor}
+                keyExtractor={(item) => item.total_servicio}
+                navigation={this.props.navigation}
             />
         } else {
             return <ActivityIndicator />
@@ -180,8 +212,16 @@ let styles = StyleSheet.create({
         aspectRatio: 1.5,
         resizeMode: 'contain'
 
+    },
+    map: {
+        flex:1,
+        height: 250
+    },
+    containermap: {
+        ...StyleSheet.absoluteFillObject,
+        width: deviceWidth,
+        justifyContent: 'flex-end',
     }
-
 })
 
 

@@ -89,8 +89,6 @@ class taxi extends React.Component {
         let newChecks = this.state.checks;
         newChecks[i] = !newChecks[i];
 
-        this.preciototal = preciototal + newChecks[i].montoViaje
-
         this.setState({
             checks: newChecks
         });
@@ -102,6 +100,7 @@ class taxi extends React.Component {
         for (let index = 0; index < allChecks.length; index++) {
 
             if (!allChecks[index]) {
+                console.log(index);
                 allChecks[index] = !allChecks[index];
             }
         }
@@ -160,11 +159,7 @@ class taxi extends React.Component {
                         </Card>
                     </TouchableOpacity>
 
-                    <Button
-                        title='Siguiente'
-                        buttonStyle={{ backgroundColor: '#d5d5d5', margin: 8 }}
-                        onPress={() => this.props.navigation.navigate("DatosFacturacionActuales")}
-                    />
+
                 </View>
 
             </View>

@@ -4,9 +4,6 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Button } from 're
 import { CheckBox, Rating } from 'react-native-elements'
 
 
-
-let puntuacionfinal = 3;
-
 class misviajescambiapuntos extends React.Component {
 
     static navigationOptions = {
@@ -84,7 +81,6 @@ class misviajescambiapuntos extends React.Component {
                 </TouchableOpacity>
 
                 <Button
-                    title={viaje.puntuacion}
                     onPress={() => this.props.navigation.navigate("GraciasCambio", {viaje} )} />
 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, deviceWidth, TouchableOpacity } from 'react-native';
 import { Header, Icon, Button, Divider } from 'react-native-elements';
+import { BannerModal } from "./modalBanner";
 
 class facturacion extends React.Component {
 
@@ -15,6 +16,12 @@ class facturacion extends React.Component {
             fontWeight: "bold"
         }
 
+    }
+
+    getInitialState(){
+        return {
+            modalVisible: true
+        }
     }
 
     constructor(props) {
@@ -49,9 +56,19 @@ class facturacion extends React.Component {
                         type='material'
                     />
                 </TouchableOpacity>
+
+
             </View>
         )
     }
+
+    showModal() {
+        this.setState(
+        {
+            modalVisible: true
+        })
+    }
+
 }
 
 let styles = StyleSheet.create({

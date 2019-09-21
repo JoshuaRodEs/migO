@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, deviceWidth, TouchableOpacity } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Header, Icon, Button, Divider } from 'react-native-elements';
 
 import { createAppContainer, } from "react-navigation"; // Version can be specified in package.json

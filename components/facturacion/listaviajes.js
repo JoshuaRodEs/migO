@@ -15,7 +15,12 @@ class listaviajes extends React.Component {
         return (
             <ScrollView>
                 <Navfacturacion />
-                
+                <Button
+                    title='Siguiente'
+                    buttonStyle={{ backgroundColor: '#d5d5d5', margin: 8 }}
+                    onPress={() => this.props.navigation.navigate("DatosFacturacionActuales")}
+                />
+
             </ScrollView>
         )
     }
