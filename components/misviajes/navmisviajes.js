@@ -90,13 +90,13 @@ class taxi extends React.Component {
 
 
     async componentDidMount() {
-        const result = await fetch('http://187.234.45.213:3001/webservice/interfaz108_109/Usuarios', {
+        const result = await fetch('http://187.144.62.47:3001/webservice/interfaz111/Usuarios', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 'id_usuario': '1' })
+            body: JSON.stringify({ 'id_servicio': '1' })
         })
 
         const content = await result.json();

@@ -119,7 +119,7 @@ class misviajes extends React.Component {
 
 
     async componentDidMount() {
-        const result = await fetch('http://187.234.45.213:3001/webservice/interfaz108_109/Usuarios', {
+        const result = await fetch('http://187.144.62.47:3001/webservice/interfaz108_109/Usuarios', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -140,18 +140,7 @@ class misviajes extends React.Component {
         return <Card style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => this.goToNextScreen(data.item)}
                 style={{ flexDirection: 'column' }}>
-                <MapView
-                    provider={PROVIDER_GOOGLE}
-                    scrollEnabled={false}
-                    liteMode={true}
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }} />
-                <View >
+                    <View >
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text>{data.item.fecha_hora.split('T')[0]}</Text>
                         <Text>${data.item.total_servicio}</Text>
@@ -166,6 +155,19 @@ class misviajes extends React.Component {
                         />
                     </View>
                 </View>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    scrollEnabled={false}
+                    liteMode={true}
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: 19.249184,
+                        longitude: -103.717344,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                        
+                    }} />
+                
 
             </TouchableOpacity>
         </Card>
@@ -215,7 +217,7 @@ let styles = StyleSheet.create({
     },
     map: {
         flex:1,
-        height: 250
+        height: 200
     },
     containermap: {
         ...StyleSheet.absoluteFillObject,

@@ -35,7 +35,7 @@ class misviajesperfilconductor extends React.Component {
     render() {
 
         const { navigation } = this.props;
-        const chofer = navigation.getParam('conductor');
+        const chofer = navigation.getParam('chofer');
 
         return (
             <View style={{ flex: 1 }}>
@@ -45,13 +45,13 @@ class misviajesperfilconductor extends React.Component {
 
                         <TouchableOpacity onPress={() => this.refs.modal2.open()}>
                             <Image
-                                source={{ uri: chofer.fotoPerfil }}
+                                source={{ uri: chofer[0].foto}}
                                 style={{ height: 110, width: 110 }}
                             />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                        <Text style={{ fontSize: 20, marginLeft: 7 }}>{chofer.nombre}</Text>
+                        <Text style={{ fontSize: 20, marginLeft: 7 }}>{chofer[0].nombre_conductor}  {chofer[0].apellido} </Text>
                         <MenuProvider style={{ flexDirection: "column", marginLeft:30 }}>
                             <Menu >
 
@@ -78,25 +78,25 @@ class misviajesperfilconductor extends React.Component {
                         <Icon
                             name='ios-hand'
                             type='ionicon' />
-                        <Text> {chofer.descripcion}</Text>
+                        <Text> {chofer[0].acerca_conductor}</Text>
                     </View>
                     <View style={{ marginLeft: 7, flexDirection: 'row' }}>
                         <Icon
                             name='translate'
                             type='material' />
-                        <Text> {chofer.idiomas}</Text>
+                        <Text> {chofer[0].idiomas}</Text>
                     </View>
                     <View style={{ marginLeft: 7, flexDirection: 'row' }}>
                         <Icon
                             name='hotel'
                             type='material' />
-                        <Text> {chofer.residencia}</Text>
+                        <Text> {chofer[0].ciudad}</Text>
                     </View>
 
                     <View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
-                            <Text> {chofer.puntuacion} </Text>
-                            <Text>    {chofer.tiempoenservicio}</Text>
+                            <Text> {chofer[0].calificacion} </Text>
+                            <Text>    {chofer[0].dias_activo}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                             <Text>Calificación</Text>

@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, ScrollView, StyleSheet, deviceWidth, ImageResizeMode } from "react-native";
+import { View, Text, ScrollView, StyleSheet, deviceWidth, ImageResizeMode, ActivityIndicator } from "react-native";
 import { Image, Divider, Rating, Button } from "react-native-elements";
 import { TabNavigator } from 'react-navigation'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavDetallesAR } from "./navDetalles";
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 
 
@@ -42,35 +43,78 @@ class misviajesDetalles extends React.Component {
 
     }
 
-    constructor(props) {
+    constructor(props) {  
+
         super(props);
-        this.state = {};
+
+    }
+
+    state = {
+        chofer: [],
+        loading: true
+    }
+
+    async componentWillMount() {
+        const result = await fetch('http://187.144.62.47:3001/webservice/interfaz112/DatosUsuarios', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'id_conductor': '1' })
+        })
+
+        const content = await result.json();
+
+        this.setState({ chofer: content.datos, loading: false});
+
+        console.log(this.state.chofer);
+
+    }
+
+
+    tipoPago = (pago) => {
+        if (pago == 1) {
+            return <Text> Efectivo </Text>
+        }
+        else {
+            return <Text> Tarjeta </Text>
+        }
     }
 
     render() {
 
         const { navigation } = this.props;
+        const { chofer, loading } = this.state;
         const viajeElegido = navigation.getParam('viajeT');
+        console.log(loading);
+        
 
-        return (
-            <ScrollView>
+        if (!loading) {
+            return <ScrollView>
                 <View>
                     {/* Info y direccion del viaje seleccionado----------------------------------------------*/}
-                    <View style={styles.vistas, { marginTop: 10 }}>
-                        <Image
-
-                            style={styles.imagen}
-                        />
-                    </View>
+                        <MapView
+                            provider={PROVIDER_GOOGLE}
+                            scrollEnabled={false}
+                            liteMode={true}
+                            style={styles.map}
+                            initialRegion={{
+                                latitude: 19.249184,
+                                longitude: -103.717344,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }} />
+                    
                     <Divider style={{ backgroundColor: '#bababa' }} />
                     <View>
                         <View style={styles.vistas}>
-                            <Text>{viajeElegido.fecha_hora}</Text>
+                            <Text>{viajeElegido.fecha_hora.split('T')[0]}</Text>
                             <Text>$ {viajeElegido.total_servicio}</Text>
                         </View>
                         <View style={styles.vistas}>
                             <Text>{viajeElegido.vehiculo_info}</Text>
-                            <Text>{viajeElegido.forma_pago}</Text>
+                            <Text>{this.tipoPago(viajeElegido.forma_pago)}</Text>
                         </View>
                         <View style={{ flexDirection: "column" }}>
                             <Text>*Direccion de origen</Text>
@@ -81,18 +125,18 @@ class misviajesDetalles extends React.Component {
                     <Divider style={{ backgroundColor: '#bababa' }} />
                     <Divider style={{ backgroundColor: '#fff', height: 10 }} />
                     <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("PerfilConductor", { conductor })} style={styles.vistas} >
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("PerfilConductor", { chofer })} style={styles.vistas} >
                             <Image
                                 source={{ uri: conductor.fotoPerfil }}
                                 style={{ width: 50, height: 50 }}
                             />
-                            <Text style={{ textAlignVertical: 'center' }} >    Calificaste a {nombreC}</Text>
+                            <Text style={{ textAlignVertical: 'center' }} >    Calificaste a {viajeElegido.nombre_conductor.split(' ')[0]}</Text>
                         </TouchableOpacity>
                         <Rating
                             style={{ justifyContent: 'center' }}
                             readonly
                             imageSize={19}
-                            startingValue={viajeElegido.puntuacion}
+                            startingValue={viajeElegido.calificacion_chofer}
                         />
                     </View>
                     <Divider style={{ backgroundColor: '#fff', height: 10 }} />
@@ -103,7 +147,7 @@ class misviajesDetalles extends React.Component {
 
                     <View style={{ marginBottom: 5, width: deviceWidth, flexDirection: 'row', justifyContent: 'center' }}>
                         <TouchableOpacity
-                            onPress={() => this.props.navigation.navigate("CambiaPuntos", { viajeElegido})}
+                            onPress={() => this.props.navigation.navigate("CambiaPuntos", { viajeElegido })}
                             style={{ backgroundColor: '#d1d1d1', marginRight: 4 }}>
                             <View style={{ marginLeft: 5, marginRight: 5 }}>
                                 <Text>Como cambiar la calificacion</Text>
@@ -135,7 +179,10 @@ class misviajesDetalles extends React.Component {
                 <NavDetallesAR />
 
             </ScrollView>
-        )
+        }
+        else{
+            return <ActivityIndicator />
+        }
     }
 }
 
@@ -177,6 +224,10 @@ let styles = StyleSheet.create({
         marginRight: 10,
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    map: {
+        flex:1,
+        height: 250
     }
 })
 
