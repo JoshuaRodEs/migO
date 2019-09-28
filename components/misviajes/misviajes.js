@@ -81,7 +81,7 @@ class misviajes extends React.Component {
                 style={{ flexDirection: 'column' }}>
                 <View >
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text>{data.item.fecha_hora.split('T')[0]} {data.item.fecha_hora.split('T')[1]}</Text>
+                        <Text>{data.item.fecha_hora.split('T')[0]} {data.item.fecha_hora.split('T')[1].split('.')[0]}</Text>
                         <Text>${data.item.total_servicio}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
