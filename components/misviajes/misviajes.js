@@ -2,70 +2,9 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, deviceWidth, ActivityIndicator, FlatList } from 'react-native'
 import { Divider, Icon, Button, Card, Image, Rating, Header } from 'react-native-elements'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import { Navmisviajes } from './navmisviajes'
-
-const viajesTaxi = [
-
-    {
-        fechaUso: '17/08/19 9:37 p.m.',
-        modeloTaxi: 'Ford Lobo',
-        montoViaje: 60.50,
-        puntuacion: 5,
-        formapago: 'Efectivo',
-        origen: 'Vicente Guerrero 213, Obregon, 28000 Colima, Col, Mexico',
-        destino: 'Porfirio Gaytan Nuñez 489, Lomas del Centenario, 28984, Villa de Alvarez, Col, Mexico',
-        recorrido: 'http://2.bp.blogspot.com/-ufrUdR0htic/UJOA1SK4h3I/AAAAAAAAAGQ/Avc1jc0M-ww/s1600/como-dibujar-rutas-google-maps.PNG'
-    },
-
-    {
-        fechaUso: '15/08/19 9:37 p.m.',
-        modeloTaxi: 'Aveo',
-        montoViaje: 30.50,
-        puntuacion: 4,
-        formapago: 'Efectivo',
-        origen: 'Vicente Guerrero 213, Obregon, 28000 Colima, Col, Mexico',
-        destino: 'Porfirio Gaytan Nuñez 489, Lomas del Centenario, 28984, Villa de Alvarez, Col, Mexico',
-        recorrido: 'https://images.clarin.com/2019/05/30/google-maps-muestra-la-ubicacion___qV2WQlVoQ_1256x620__1.jpg'
-    },
-
-    {
-        fechaUso: '13/08/19 9:37 p.m.',
-        modeloTaxi: 'Italika',
-        montoViaje: 20.50,
-        puntuacion: 2,
-        formapago: 'Efectivo',
-        origen: 'Vicente Guerrero 213, Obregon, 28000 Colima, Col, Mexico',
-        destino: 'Porfirio Gaytan Nuñez 489, Lomas del Centenario, 28984, Villa de Alvarez, Col, Mexico',
-        recorrido: 'http://2.bp.blogspot.com/-ufrUdR0htic/UJOA1SK4h3I/AAAAAAAAAGQ/Avc1jc0M-ww/s1600/como-dibujar-rutas-google-maps.PNG'
-    },
-
-    {
-        fechaUso: '11/08/19 9:37 p.m.',
-        modeloTaxi: 'Ford Lobo',
-        montoViaje: 200.40,
-        puntuacion: 5,
-        formapago: 'Efectivo',
-        origen: 'Vicente Guerrero 213, Obregon, 28000 Colima, Col, Mexico',
-        destino: 'Porfirio Gaytan Nuñez 489, Lomas del Centenario, 28984, Villa de Alvarez, Col, Mexico',
-        recorrido: 'https://elcomercio.pe/files/listing_ec_flujo_xx/uploads/2018/02/22/5a8ebc807e576.jpeg'
-    },
-
-    {
-        fechaUso: '10/08/19 9:37 p.m.',
-        modeloTaxi: 'Papapure',
-        montoViaje: 44.50,
-        puntuacion: 5,
-        formapago: 'Efectivo',
-        origen: 'Vicente Guerrero 213, Obregon, 28000 Colima, Col, Mexico',
-        destino: 'Porfirio Gaytan Nuñez 489, Lomas del Centenario, 28984, Villa de Alvarez, Col, Mexico',
-        recorrido: 'http://2.bp.blogspot.com/-ufrUdR0htic/UJOA1SK4h3I/AAAAAAAAAGQ/Avc1jc0M-ww/s1600/como-dibujar-rutas-google-maps.PNG'
-    }
-
-
-
-]
-
 
 
 class misviajes extends React.Component {
@@ -119,7 +58,7 @@ class misviajes extends React.Component {
 
 
     async componentDidMount() {
-        const result = await fetch('http://187.144.62.47:3001/webservice/interfaz108_109/Usuarios', {
+        const result = await fetch('http://34.95.33.177:3003/webservice/interfaz108_109/Usuarios', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -140,9 +79,9 @@ class misviajes extends React.Component {
         return <Card style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => this.goToNextScreen(data.item)}
                 style={{ flexDirection: 'column' }}>
-                    <View >
+                <View >
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text>{data.item.fecha_hora.split('T')[0]}</Text>
+                        <Text>{data.item.fecha_hora.split('T')[0]} {data.item.fecha_hora.split('T')[1]}</Text>
                         <Text>${data.item.total_servicio}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
@@ -159,15 +98,250 @@ class misviajes extends React.Component {
                     provider={PROVIDER_GOOGLE}
                     scrollEnabled={false}
                     liteMode={true}
+                    customMapStyle={[
+                        {
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#f5f5f5"
+                            }
+                          ]
+                        },
+                        {
+                          "elementType": "labels.icon",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#616161"
+                            }
+                          ]
+                        },
+                        {
+                          "elementType": "labels.text.stroke",
+                          "stylers": [
+                            {
+                              "color": "#f5f5f5"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "administrative.land_parcel",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "administrative.land_parcel",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#bdbdbd"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "administrative.neighborhood",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#eeeeee"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi",
+                          "elementType": "labels.text",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#757575"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi.business",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi.park",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#e5e5e5"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi.park",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#9e9e9e"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#ffffff"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road",
+                          "elementType": "labels",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road",
+                          "elementType": "labels.icon",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road.arterial",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#757575"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road.highway",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#dadada"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road.highway",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#616161"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road.local",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#9e9e9e"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "transit",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "transit.line",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#e5e5e5"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "transit.station",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#eeeeee"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "water",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#c9c9c9"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "water",
+                          "elementType": "labels.text",
+                          "stylers": [
+                            {
+                              "visibility": "off"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "water",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#9e9e9e"
+                            }
+                          ]
+                        }
+                      ]}
                     style={styles.map}
                     initialRegion={{
                         latitude: 19.249184,
-                        longitude: -103.717344,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                        
-                    }} />
-                
+                        longitude: -103.722117,
+                        latitudeDelta: 0.0122,
+                        longitudeDelta: 0.011,
+
+                    }} >
+                    <MapViewDirections
+                        origin={{ latitude: 19.249184, longitude: -103.717344 }}
+                        strokeWidth={4}
+                        destination={{ latitude: 19.231830, longitude: -103.722117 }}
+                        apikey={"AIzaSyCr3ismAo7J6PSBpGCVYVvTu8S-7kcPkJ4"}
+                    />
+                </MapView>
+
 
             </TouchableOpacity>
         </Card>
@@ -216,7 +390,7 @@ let styles = StyleSheet.create({
 
     },
     map: {
-        flex:1,
+        flex: 1,
         height: 200
     },
     containermap: {

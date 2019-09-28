@@ -7,7 +7,7 @@ class detallesfactura extends React.Component {
 
     static navigationOptions = {
 
-        title: 'Historial de Facturacion',
+        title: 'Historial de Facturación',
         headerStyle: {
             backgroundColor: "#fff"
         },
@@ -33,16 +33,16 @@ class detallesfactura extends React.Component {
 
                 <Card style={styles.card} >
                     <Text>RFC: {factura.rfc}</Text>
-                    <Text>Denominacion/Razon Social: {factura.denominacion}</Text>
+                    <Text>Denominacion/Razón Social: {factura.denominacion}</Text>
                     <Text>{factura.fecha}</Text>
 
                     <Text style={{ margin: 10, fontWeight: '500' }} >Domicilio Fiscal</Text>
 
                     <Text>Nombre de Vialidad: {factura.domicilio.calle}</Text>
                     <Text>Colonia: {factura.domicilio.colonia}</Text>
-                    <Text>Numero exterior: {factura.domicilio.numext}</Text>
-                    <Text>Numero interior: {factura.domicilio.numint}</Text>
-                    <Text>Codigo postal: ${factura.domicilio.cp}</Text>
+                    <Text>Número exterior: {factura.domicilio.numext}</Text>
+                    <Text>Número interior: {factura.domicilio.numint}</Text>
+                    <Text>Código postal: ${factura.domicilio.cp}</Text>
                     <Text>Nombre del muicipio o demarcacion teritorial: {factura.domicilio.municipio}</Text>
                     <Text>Nombre de la localidad: {factura.domicilio.localidad}</Text>
                     <Text>Nombre de la entidad federativa: {factura.domicilio.entidad}</Text>
@@ -51,7 +51,7 @@ class detallesfactura extends React.Component {
                 <Card style={styles.card} >
                     <Text>Cantidad: MX ${factura.cantidad}</Text>
                     <Text>Tipo de pago: {factura.pago}</Text>
-                    <Text>Correo Electronico: {factura.correo}</Text>
+                    <Text>Correo Electrónico: {factura.correo}</Text>
                 </Card>
 
 

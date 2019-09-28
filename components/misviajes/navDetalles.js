@@ -81,7 +81,7 @@ class inforecibo extends React.Component {
     }
 
     async componentWillReceiveProps() {
-        const result = await fetch('http://187.144.62.47:3001/webservice/interfaz111/Usuarios', {
+        const result = await fetch('http://34.95.33.177:3003/webservice/interfaz111/Usuarios', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',

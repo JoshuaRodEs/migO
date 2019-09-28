@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, Text, Alert, ScrollView, StyleSheet, deviceWidth, ImageResizeMode, TextStyle, Dimensions } from "react-native";
-import { Image, Divider, Rating, Icon, Button,withBadge, Badge} from "react-native-elements";
+import { Image, Divider, Rating, Icon, Button, withBadge, Badge } from "react-native-elements";
 import Modal from "react-native-modalbox";
 import { Menu, MenuProvider, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 
 var screen = Dimensions.get('window');
-const BadgedIcon = withBadge(1)(Icon)
+
 
 class misviajesperfilconductor extends React.Component {
 
@@ -16,7 +16,28 @@ class misviajesperfilconductor extends React.Component {
         headerTintColor: "#000",
         headerTitleStyle: {
             fontWeight: "bold"
-        }
+        },
+        headerRigth: (
+            <MenuProvider style={{ flexDirection: "column", marginLeft: 30 }}>
+                <Menu >
+
+                    <MenuTrigger  >
+                        <TouchableOpacity >
+                            <Icon
+                                name='options'
+                                type='simple-line-icon'
+                            />
+
+                        </TouchableOpacity>
+                    </MenuTrigger  >
+
+                    <MenuOptions style={{ width: 50, marginLeft: 20 }} >
+                        <MenuOption onSelect={() => this.refs.modal.open()} text='Reportar perfil' />
+                    </MenuOptions>
+
+                </Menu>
+            </MenuProvider>
+        )
 
     }
 
@@ -36,6 +57,13 @@ class misviajesperfilconductor extends React.Component {
 
         const { navigation } = this.props;
         const chofer = navigation.getParam('chofer');
+        const meojorescomentarios = navigation.getParam('chofer');
+        const logros = navigation.getParam('chofer');
+        const BadgedIcon = withBadge(1)(Icon)
+        const BadgedIcon1 = withBadge(2)(Icon)
+        const BadgedIcon2 = withBadge(3)(Icon)
+        const BadgedIcon3 = withBadge(5)(Icon)
+        const BadgedIcon4 = withBadge(6)(Icon)
 
         return (
             <View style={{ flex: 1 }}>
@@ -45,32 +73,13 @@ class misviajesperfilconductor extends React.Component {
 
                         <TouchableOpacity onPress={() => this.refs.modal2.open()}>
                             <Image
-                                source={{ uri: chofer[0].foto}}
+                                source={{ uri: chofer[0].foto }}
                                 style={{ height: 110, width: 110 }}
                             />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
                         <Text style={{ fontSize: 20, marginLeft: 7 }}>{chofer[0].nombre_conductor}  {chofer[0].apellido} </Text>
-                        <MenuProvider style={{ flexDirection: "column", marginLeft:30 }}>
-                            <Menu >
-
-                                <MenuTrigger  >
-                                    <TouchableOpacity >
-                                        <Icon
-                                            name='options'
-                                            type='simple-line-icon'
-                                        />
-
-                                    </TouchableOpacity>
-                                </MenuTrigger  >
-
-                                <MenuOptions style={{ width:50, marginLeft:20}} >
-                                    <MenuOption onSelect={() => this.refs.modal.open()} text='Reportar perfil' />
-                                </MenuOptions>
-
-                            </Menu>
-                        </MenuProvider>
                     </View>
 
 
@@ -105,52 +114,60 @@ class misviajesperfilconductor extends React.Component {
                     </View>
                     <Divider style={{ backgroundColor: '#e8e8e8', height: 1.5 }} />
                     <Text style={{ marginLeft: 10, fontWeight: '500', fontSize: 18 }} >Mis reconocimientos</Text>
-                    <View style={styles.reconocimientos} >
-                        <View style={{width:30}} >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+                        <View style={{}} >
                             <BadgedIcon
                                 reverse
-                                value='4'
+                                value={chofer.rec_exc_servicio}
                                 name='thumb-up'
                                 type='material-community'
                                 color='#696969'
                             />
-                            <Text>Excelente servicio</Text>
+                            <Text> Excelente</Text>
+                            <Text>  servicio</Text>
                         </View>
-                        <View style={{width:30}} >
-                            <Icon
+                        <View style={{ width: 30 }} >
+                            <BadgedIcon1
                                 reverse
+                                value={chofer.rec_exc_servicio}
                                 name='map-marker'
                                 type='material-community'
                                 color='#696969'
                             />
-                            <Text>Buena ruta</Text>
+                            <Text>Buena </Text>
+                            <Text>ruta</Text>
                         </View>
-                        <View style={{width:30}}>
-                            <Icon
+                        <View style={{ width: 30 }}>
+                            <BadgedIcon2
                                 reverse
+                                value={chofer.rec_exc_servicio}
                                 name='emoticon-outline'
                                 type='material-community'
                                 color='#696969'
                             />
                             <Text>Amable</Text>
                         </View>
-                        <View style={{width:30}}>
-                            <Icon
+                        <View style={{}}>
+                            <BadgedIcon3
                                 reverse
+                                value={chofer.rec_exc_servicio}
                                 name='message-text'
                                 type='material-community'
                                 color='#696969'
                             />
-                            <Text>Buena platica</Text>
+                            <Text>Buena</Text>
+                            <Text>platica</Text>
                         </View>
-                        <View style={{width:30}}>
-                            <Icon
+                        <View style={{}}>
+                            <BadgedIcon4
                                 reverse
+                                value={chofer.rec_exc_servicio}
                                 name='shield-check'
                                 type='material-community'
                                 color='#696969'
                             />
-                            <Text>Excelente servicio</Text>
+                            <Text>Excelente</Text>
+                            <Text> servicio</Text>
                         </View>
                     </View>
 
@@ -165,7 +182,7 @@ class misviajesperfilconductor extends React.Component {
 
                 </View>
 
-                <Modal  onClosed={ () => this.refs.modal1.open()} position={'bottom'} style={styles.modal} ref={"modal"}>
+                <Modal onClosed={() => this.refs.modal1.open()} position={'bottom'} style={styles.modal} ref={"modal"}>
                     <View style={{ width: screen.width }} >
 
                         <View style={{ margin: 10 }}>
@@ -205,22 +222,22 @@ class misviajesperfilconductor extends React.Component {
                     </View>
                 </Modal>
 
-                <Modal 
-                isOpen={this.state.isOpen} 
-                onClosed={() => this.setState({isOpen: false})} 
-                style={{justifyContent: 'center', alignItems: 'center', height:370}} 
-                position={"center"} 
-                ref={"modal2"} >
-                            <View style={{ height: 350, width: 350 }} >
-                                <TouchableOpacity onPress={() => this.refs.modal2.close()}>
-                                    <Image
-                                        source={{ uri: chofer.fotoPerfil }}
-                                        style={{ height: 330, width: 330 }}
-                                    />
-                                </TouchableOpacity>
-                                <Button title="Volver" onPress={() => this.refs.modal2.close()}/>
-                            </View>
-                        </Modal>
+                <Modal
+                    isOpen={this.state.isOpen}
+                    onClosed={() => this.setState({ isOpen: false })}
+                    style={{ justifyContent: 'center', alignItems: 'center', height: 370 }}
+                    position={"center"}
+                    ref={"modal2"} >
+                    <View style={{ height: 350, width: 350 }} >
+                        <TouchableOpacity onPress={() => this.refs.modal2.close()}>
+                            <Image
+                                source={{ uri: chofer.fotoPerfil }}
+                                style={{ height: 330, width: 330 }}
+                            />
+                        </TouchableOpacity>
+                        <Button title="Volver" onPress={() => this.refs.modal2.close()} />
+                    </View>
+                </Modal>
 
             </View>
         )
@@ -247,6 +264,9 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         padding: 2,
         fontSize: 20
+    },
+    reconocimientos: {
+
     },
     modal: {
         width: screen.width,
